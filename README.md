@@ -1,2 +1,2 @@
-# lego service
- A fullstack web service using Express JS
+<h1 align="center">Brickable</h1>
+<p align="center">A fullstack web application developed using Express JS</p>
