@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0" />
+		<link
+			rel="stylesheet"
+			href="/css/main.css" />
+		<title>About</title>
+	</head>
+	<body>
+		<div class="navbar bg-base-100 px-5 drop-shadow-lg">
+			<div class="flex-1">
+				<a
+					href="/"
+					class="btn btn-ghost normal-case text-xl"
+					>Lego Collection</a
+				>
+			</div>
+			<!--Mobile-->
+			<div class="dropdown md:hidden">
+				<button class="btn btn-square btn-ghost">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						class="inline-block w-5 h-5 stroke-current">
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M4 6h16M4 12h16M4 18h16"></path>
+					</svg>
+				</button>
+				<ul class="menu menu-sm dropdown-content right-0 bg-base-100 w-52">
+					<li>
+						<a
+							href="/about"
+							class="active"
+							>About</a
+						>
+					</li>
+					<li>
+						<details>
+							<summary>Theme</summary>
+							<ul class="p-2 bg-base-100 right-0">
+								<li class="mt-1">
+									<a href="/lego/sets?theme=Space">Space</a>
+								</li>
+								<li class="mt-1">
+									<a href="/lego/sets?theme=Friends">Friends</a>
+								</li>
+								<li class="mt-1">
+									<a href="/lego/sets?theme=Hobby Sets">Hobby Sets</a>
+								</li>
+							</ul>
+						</details>
+					</li>
+				</ul>
+			</div>
+			<!--Desktop-->
+			<div class="hidden md:block md:px-2">
+				<ul class="menu menu-horizontal px-1">
+					<li>
+						<a
+							href="/about"
+							class="active"
+							>About</a
+						>
+					</li>
+					<li>
+						<details>
+							<summary>Theme</summary>
+							<ul class="p-2 bg-base-100 right-0 w-52">
+								<li><a href="/lego/sets?theme=Space">Space</a></li>
+								<li><a href="/lego/sets?theme=Friends">Friends</a></li>
+								<li><a href="/lego/sets?theme=Hobby Sets">Hobby Sets</a></li>
+							</ul>
+						</details>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<br />
+		<div class="container mx-auto">
+			<div
+				class="hero min-h-full rounded-none sm:rounded-lg"
+				style="background-image: url('/images/aboutHero.jpg')">
+				<div
+					class="hero-overlay bg-opacity-70 rounded-none sm:rounded-lg"></div>
+				<div class="hero-content z-auto text-center text-neutral-content">
+					<div class="max-w-md">
+						<h1 class="mb-5 text-5xl font-bold">About Me</h1>
+						<p class="mb-5">The developer, designer, and student.</p>
+					</div>
+				</div>
+			</div>
+			<br />
+			<div class="grid grid-cols-1 md:grid-cols-2">
+				<div class="mx-auto w-10/12 h-1/2 md:w-full">
+					<img
+						class="rounded-lg"
+						src="/images/toronto.jpg"
+						alt="toronto" />
+				</div>
+				<div
+					class="flex flex-col align-middle justify-center text-center my-5 px-4 md:px-8 md:my-0 md:text-left">
+					<p class="font-semibold">
+						Hi, my name is Arjun. I am a 19 year old student at Seneca College
+						in Toronto, ON.
+					</p>
+					<br />
+					<p>
+						I am currently studying computer programming, and plan to do my
+						bachelors and masters in the following years. I am a huge gearhead,
+						I love to work on cars, motorcycles, or anything with moving parts.
+						I am always researching new things and keep up to date on
+						technology. I also enjoy doing combat sports and working out. I am
+						very keen on experimenting with cloud technology and back end
+						development. I love to improve my skills and learn from other
+						people.
+					</p>
+				</div>
+			</div>
+		</div>
+		<br />
+	</body>
+</html>
