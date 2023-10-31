@@ -17,6 +17,8 @@ const legoData = require('./modules/legoSets');
 const app = express();
 const port = 3000;
 
+app.set('view engine', 'ejs');
+
 // Will initialize and then start the server, will catch any errors if something unexpected occurs
 try {
 	legoData.initialize().then(() => {
@@ -33,11 +35,11 @@ app.use(express.static('public'));
 
 // Page Routes
 app.get('/', (req, res) => {
-	res.sendFile(path.join(__dirname, '/views/home.html'));
+	res.render(path.join(__dirname, 'views/home.ejs'));
 });
 
 app.get('/about', (req, res) => {
-	res.sendFile(path.join(__dirname, 'views/about.html'));
+	res.render(path.join(__dirname, 'views/about.ejs'));
 });
 
 // API Routes
@@ -54,7 +56,7 @@ app.get('/lego/sets', async (req, res) => {
 			res.status(200).json(sets);
 		}
 	} catch (error) {
-		res.status(404).sendFile(path.join(__dirname, 'views/404.html'));
+		res.status(404).render(path.join(__dirname, 'views/404.ejs'));
 	}
 });
 
@@ -63,6 +65,6 @@ app.get('/lego/sets/:set_num', async (req, res) => {
 		let set = await legoData.getSetByNum(req.params.set_num);
 		res.status(200).json(set);
 	} catch (error) {
-		res.status(404).sendFile(path.join(__dirname, 'views/404.html'));
+		res.status(404).render(path.join(__dirname, 'views/404.ejs'));
 	}
 });
