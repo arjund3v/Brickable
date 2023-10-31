@@ -35,11 +35,11 @@ app.use(express.static('public'));
 
 // Page Routes
 app.get('/', (req, res) => {
-	res.render(path.join(__dirname, 'views/home.ejs'));
+	res.render('home');
 });
 
 app.get('/about', (req, res) => {
-	res.render(path.join(__dirname, 'views/about.ejs'));
+	res.render('about');
 });
 
 // API Routes
@@ -56,7 +56,7 @@ app.get('/lego/sets', async (req, res) => {
 			res.status(200).json(sets);
 		}
 	} catch (error) {
-		res.status(404).render(path.join(__dirname, 'views/404.ejs'));
+		res.status(404).render('404');
 	}
 });
 
@@ -65,6 +65,6 @@ app.get('/lego/sets/:set_num', async (req, res) => {
 		let set = await legoData.getSetByNum(req.params.set_num);
 		res.status(200).json(set);
 	} catch (error) {
-		res.status(404).render(path.join(__dirname, 'views/404.ejs'));
+		res.status(404).render('404');
 	}
 });
