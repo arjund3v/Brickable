@@ -33,16 +33,17 @@ try {
 // Mark the public folder as static
 app.use(express.static('public'));
 
-// Page Routes
+// ROUTE: Home Page
 app.get('/', (req, res) => {
 	res.render('home');
 });
 
+// ROUTE: About page
 app.get('/about', (req, res) => {
 	res.render('about');
 });
 
-// API Routes
+// API: Main Endpoint
 app.get('/lego/sets', async (req, res) => {
 	let theme = req.query.theme;
 	let sets = {};
@@ -50,16 +51,17 @@ app.get('/lego/sets', async (req, res) => {
 	try {
 		if (theme == undefined) {
 			sets = await legoData.getAllSets();
-			res.status(200).json(sets);
+			res.status(200).render('sets', { sets: sets });
 		} else {
 			sets = await legoData.getSetsByTheme(theme);
-			res.status(200).json(sets);
+			res.status(200).render('sets', { sets: sets });
 		}
 	} catch (error) {
 		res.status(404).render('404');
 	}
 });
 
+// API: set by num endpoint
 app.get('/lego/sets/:set_num', async (req, res) => {
 	try {
 		let set = await legoData.getSetByNum(req.params.set_num);

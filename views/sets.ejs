@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0" />
+		<link
+			rel="stylesheet"
+			href="/css/main.css" />
+		<title>Brickable</title>
+	</head>
+	<body>
+		<%- include('partials/navbar', {page: '/lego/sets'})%>
+		<br />
+		<div class="container mx-auto">
+			<div
+				class="hero min-h-full rounded-none sm:rounded-lg"
+				style="background-image: url('/images/aboutHero.jpg')">
+				<div
+					class="hero-overlay bg-opacity-70 rounded-none sm:rounded-lg"></div>
+				<div class="hero-content z-auto text-center text-neutral-content">
+					<div class="max-w-md">
+						<h1 class="mb-5 text-5xl font-bold">Collection</h1>
+						<p class="mb-5">Browse all the sets in our collection!</p>
+					</div>
+				</div>
+			</div>
+			<br />
+            <div class="overflow-x-scroll py-5">
+                <table class="table table-zebra">
+                    <% sets.forEach((set)=>{ %>
+                    <tr class="px-10">
+                        <td>
+							<div class="avatar">
+								<div class="w-32 h-32 rounded-lg bg-transparent bg-no-repeat bg-cover " style="background-image: url('<%= set.img_url %>');"></div>
+							</div>
+						</td>
+						<td class="md:hidden">
+							<div class="md:hidden flex flex-col text-center">
+								<h2><%= set.name %></h2>
+								<a href="/lego/sets?theme=<%= set.theme %>" class="btn btn-primary btn-xs h-auto py-2 my-2"><%= set.theme %></a>
+								<a href="/lego/sets/<%= set.set_num %>" class="btn btn-secondary btn-xs h-auto py-2 my-2">Details</a>
+								<p class="font-bold">Year: <span class="font-light"><%= set.year %></span></p>
+								<p class="font-bold">Pieces: <span class="font-light"><%= set.num_parts %></span></p>
+							</div>
+						</td>
+						<div>
+							<td class="md:table-cell hidden"><h2><%= set.name %></h2></td>
+							<td class="md:table-cell hidden"><a href="/lego/sets?theme=<%= set.theme %>" class="btn btn-primary btn-xs h-auto py-2 my-2"><%= set.theme %></a></td>
+							<td class="md:table-cell hidden"><a href="/lego/sets/<%= set.set_num %>" class="btn btn-secondary btn-xs h-auto py-2 my-2">Details</a></td>
+							<td class="md:table-cell hidden"><p class="font-bold">Year: <span class="font-light"><%= set.year %></span></p></td>
+							<td class="md:table-cell hidden"><p class="font-bold">Pieces: <span class="font-light"><%= set.num_parts %></span></p></td>
+						</div>
+                    </tr>
+                    <% }) %>
+                </table>
+            </div>
+		<br />
+	</body>
+</html>
