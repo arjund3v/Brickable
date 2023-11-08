@@ -1822,14 +1822,6 @@ html {
   margin-bottom: 1.25rem;
 }
 
-.mt-1 {
-  margin-top: 0.25rem;
-}
-
-.mt-2 {
-  margin-top: 0.5rem;
-}
-
 .mt-5 {
   margin-top: 1.25rem;
 }
@@ -1998,10 +1990,6 @@ html {
 
 .stroke-current {
   stroke: currentColor;
-}
-
-.p-2 {
-  padding: 0.5rem;
 }
 
 .px-1 {

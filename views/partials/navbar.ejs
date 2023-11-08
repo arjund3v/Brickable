@@ -22,38 +22,15 @@
 			</svg>
 		</button>
 		<ul class="menu menu-sm dropdown-content right-0 bg-base-100 w-52">
+			<li><a class="<%= (page == "/lego/sets") ? 'active' : '' %>" href="/lego/sets">View Collection</a></li>
 			<li><a class="<%= (page == "/about") ? 'active' : '' %>" href="/about">About</a></li>
-			<li>
-				<details>
-					<summary>Theme</summary>
-					<ul class="p-2 bg-base-100 right-0">
-						<li class="mt-1">
-							<a class="<%= (page == "/lego/sets") ? 'active' : '' %>" href="/lego/sets?theme=Space">Space</a>
-						</li>
-						<li class="mt-1">
-							<a class="<%= (page == "/lego/sets") ? 'active' : '' %>" href="/lego/sets?theme=Friends">Friends</a>						</li>
-						<li class="mt-1">
-							<a class="<%= (page == "/lego/sets") ? 'active' : '' %>" href="/lego/sets?theme=Hobby Sets">Hobby Sets</a>
-						</li>
-					</ul>
-				</details>
-			</li>
 		</ul>
 	</div>
 	<!--Desktop-->
 	<div class="hidden md:block md:px-2">
 		<ul class="menu menu-horizontal px-1">
+			<li><a class="<%= (page == "/lego/sets") ? 'active' : '' %>" href="/lego/sets">View Collection</a></li>
 			<li><a class="<%= (page == "/about") ? 'active' : '' %>" href="/about">About</a></li>
-			<li>
-				<details>
-					<summary>Theme</summary>
-					<ul class="p-2 bg-base-100 right-0 w-52">
-						<li class="mt-2"><a class="<%= (page == `/lego/sets`) ? 'active' : '' %>" href="/lego/sets?theme=Space">Space</a></li>
-						<li class="mt-2"><a class="<%= (page == `/lego/sets`) ? 'active' : '' %>" href="/lego/sets?theme=Friends">Friends</a></li>
-						<li class="mt-2"><a class="<%= (page == `/lego/sets`) ? 'active' : '' %>" href="/lego/sets?theme=Hobby Sets">Hobby Sets</a></li>
-					</ul>
-				</details>
-			</li>
 		</ul>
 	</div>
 </div>
