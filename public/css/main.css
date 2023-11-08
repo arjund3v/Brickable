@@ -1789,6 +1789,10 @@ html {
   right: 0px;
 }
 
+.z-50 {
+  z-index: 50;
+}
+
 .z-auto {
   z-index: auto;
 }
