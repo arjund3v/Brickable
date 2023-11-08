@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0" />
+		<link
+			rel="stylesheet"
+			href="/css/main.css" />
+		<title>Brickable: <%= set.name %></title>
+	</head>
+	<body>
+		<%- include('partials/navbar', {page: ''})%>
+		<br />
+		<div class="container mx-auto">
+			<div
+				class="hero min-h-full rounded-none sm:rounded-lg"
+				style="background-image: url('/images/aquaBricks.jpg')">
+				<div
+					class="hero-overlay bg-opacity-70 rounded-none sm:rounded-lg"></div>
+				<div class="hero-content z-auto text-center text-neutral-content">
+					<div class="min-w-[65%] max-w-[75%]">
+						<h1 class="mb-5 text-5xl font-bold"><%= set.name %></h1>
+						<p class="mb-5">
+							Here you will find details about the <%= set.name %>
+						</p>
+					</div>
+				</div>
+			</div>
+			<br />
+			<div class="flex flex-col justify-center gap-3 lg:flex-row">
+				<img
+                    src="<%= set.img_url %>"
+					class="w-[100%] h-auto bg-transparent bg-no-repeat bg-cover lg:min-w-[72%] md:rounded-lg"
+                    >
+				</img>
+                <div class="w-auto min-h-full bg-cover md:rounded-lg" style="background-image: url('/images/herobg.jpg');">
+                    <div class="h-full w-full bg-opacity-70 md:rounded-lg" style="background-color: rgba(0, 0, 0, 0.7)">
+                        <div class="flex flex-col text-white text-center">
+                            <svg class="my-6" xmlns="http://www.w3.org/2000/svg" height="2.5em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>
+                            <h2 class="font-bold text-3xl my-3 max-w-[75%] mx-auto"><%= set.name %></h2>
+                            <div class="my-6">
+                                <p class="font-bold text-lg my-2">Release Date: <span class="font-normal"><%= set.year %></span></p>
+                                <p class="font-bold text-lg my-2">Theme: <a href="/lego/sets/?theme=<%= set.theme %>" class="btn btn-xs btn-primary text-sm"><%= set.theme %></a></p>
+                                <p class="font-bold text-lg my-2">Number of Parts: <span class="font-normal"><%= set.num_parts %></span></p>
+                                <div class="my-6 max-w-[75%] mx-auto">
+                                    <p id="quote"></p>
+                                    <p id="author" class="italic"></p>
+                                </div>
+                                <a href="#" onclick="history.back(); return false;" class="btn btn-sm btn-secondary my-3">Return</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			</div>
+		</div>
+		<br />
+        <script>
+            let getQuote = async () => {
+                try {
+                    let res = await fetch('https://quotable.io/random');
+                    const json = await res.json(); 
+
+                    return json;
+
+                } catch (error) {
+                    throw error;
+                }
+            }
+
+            document.addEventListener("DOMContentLoaded", async ()=>{
+                let data = await getQuote();
+                console.log(data);
+                let quote = document.getElementById('quote');
+                let author = document.getElementById('author');
+                quote.innerHTML = `"` + data.content + `"`;
+                author.innerHTML = `-` + data.author;
+            });
+        </script>
+	</body>
+</html>
