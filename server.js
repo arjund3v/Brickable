@@ -57,7 +57,9 @@ app.get('/lego/sets', async (req, res) => {
 			res.status(200).render('sets', { sets: sets });
 		}
 	} catch (error) {
-		res.status(404).render('404');
+		res
+			.status(404)
+			.render('404', { message: 'Unable to find requested sets.' });
 	}
 });
 
@@ -67,6 +69,13 @@ app.get('/lego/sets/:set_num', async (req, res) => {
 		let set = await legoData.getSetByNum(req.params.set_num);
 		res.status(200).render('set', { set: set });
 	} catch (error) {
-		res.status(404).render('404');
+		res.status(404).render('404', { message: 'Unable to find requested set.' });
 	}
+});
+
+// MIDDLEWARE: All non existing routes will come here
+app.use((req, res, next) => {
+	res.status(404).render('404', {
+		message: `I'm sorry, we're unable to find what you're looking for.`,
+	});
 });
