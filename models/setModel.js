@@ -1,10 +1,10 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../config/database');
-const Themes = require('./themesModel');
+const Theme = require('./themeModel');
 
 // Define a set model
-const Sets = sequelize.define(
-	'Sets',
+const Set = sequelize.define(
+	'Set',
 	{
 		set_num: {
 			type: Sequelize.STRING,
@@ -23,6 +23,6 @@ const Sets = sequelize.define(
 );
 
 // Define a relationship between the two models
-Sets.belongsTo(Themes, { foreignKey: 'theme_id' });
+Set.belongsTo(Theme, { foreignKey: 'theme_id' });
 
-module.exports = Sets;
+module.exports = Set;

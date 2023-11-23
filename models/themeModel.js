@@ -2,8 +2,8 @@ const Sequelize = require('sequelize');
 const sequelize = require('../config/database');
 
 // Define a theme model
-const Themes = sequelize.define(
-	'Themes',
+const Theme = sequelize.define(
+	'Theme',
 	{
 		id: {
 			type: Sequelize.INTEGER,
@@ -18,4 +18,4 @@ const Themes = sequelize.define(
 	}
 );
 
-module.exports = Themes;
+module.exports = Theme;

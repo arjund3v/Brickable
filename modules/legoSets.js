@@ -1,6 +1,7 @@
+const Sequelize = require('sequelize');
 const sequelize = require('../config/database');
-const Sets = require('../models/setsModel');
-const Themes = require('../models/themesModel');
+const Set = require('../models/setModel');
+const Theme = require('../models/themeModel');
 
 let initialize = () => {
 	return new Promise((resolve, reject) => {
@@ -18,8 +19,8 @@ let initialize = () => {
 let getAllSets = () => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			let setData = Sets.findAll({
-				include: Theme,
+			let setData = Set.findAll({
+				include: [Theme],
 			});
 			resolve(setData);
 		} catch (error) {
@@ -30,31 +31,32 @@ let getAllSets = () => {
 
 let getSetByNum = (setNum) => {
 	return new Promise(async (resolve, reject) => {
-		let found = sets.find((set) => set.set_num == setNum);
+		let foundSet = await Set.findAll({
+			where: {
+				set_num: setNum,
+			},
+			include: [Theme],
+		});
 
-		// If find isn't undefined, we will resolve with the set
-		if (found != undefined) {
-			resolve(found);
+		if (foundSet != undefined) {
+			resolve(foundSet[0]);
 		} else {
-			// Otherwise we will reject with an error
-			reject(new Error(`Couldn't find set with that number, please try again`));
+			reject(new Error('Unable to find requested set'));
 		}
 	});
 };
 
 let getSetsByTheme = (theme) => {
-	return new Promise((resolve, reject) => {
-		let foundArr = sets.filter((set) =>
-			// We convert to lower case for the sake of case sensitivity
-			set.theme.toLowerCase().includes(theme.toLowerCase())
-		);
+	return new Promise(async (resolve, reject) => {
+		let setArr = await Set.findAll({
+			include: [Theme],
+			where: { '$Theme.name$': { [Sequelize.Op.iLike]: `%${theme}%` } },
+		});
 
-		if (foundArr != undefined && foundArr.length != 0) {
-			resolve(foundArr);
+		if (setArr != undefined) {
+			resolve(setArr);
 		} else {
-			reject(
-				new Error(`Couldn't find sets with that theme, please try again.`)
-			);
+			reject(new Error('Unable to find requested sets'));
 		}
 	});
 };
