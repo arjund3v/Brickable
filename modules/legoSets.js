@@ -1,30 +1,35 @@
-const setData = require('../data/setData');
-const themeData = require('../data/themeData');
-
-let sets = [];
+const sequelize = require('../config/database');
+const Sets = require('../models/setsModel');
+const Themes = require('../models/themesModel');
 
 let initialize = () => {
 	return new Promise((resolve, reject) => {
-		setData.forEach((set) => {
-			themeData.forEach((theme) => {
-				if (theme.id === set.theme_id) {
-					set.theme = theme.name;
-				}
+		sequelize
+			.sync()
+			.then(() => {
+				resolve();
+			})
+			.catch((err) => {
+				reject(err);
 			});
-			sets.push(set);
-		});
-		resolve();
 	});
 };
 
 let getAllSets = () => {
-	return new Promise((resolve, reject) => {
-		resolve(sets);
+	return new Promise(async (resolve, reject) => {
+		try {
+			let setData = Sets.findAll({
+				include: Theme,
+			});
+			resolve(setData);
+		} catch (error) {
+			reject(error);
+		}
 	});
 };
 
 let getSetByNum = (setNum) => {
-	return new Promise((resolve, reject) => {
+	return new Promise(async (resolve, reject) => {
 		let found = sets.find((set) => set.set_num == setNum);
 
 		// If find isn't undefined, we will resolve with the set
