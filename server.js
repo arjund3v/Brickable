@@ -89,9 +89,6 @@ app.get('/lego/addSet', async (req, res) => {
 
 app.post('/lego/addSet', async (req, res) => {
 	try {
-		console.log('****************************************');
-		console.log(req.body);
-		console.log('****************************************');
 		await legoData.addSet(req.body);
 		res.redirect('/lego/sets');
 	} catch (error) {
@@ -103,11 +100,23 @@ app.post('/lego/addSet', async (req, res) => {
 
 app.get('/lego/editSet/:set_num', async (req, res) => {
 	try {
-		let set = legoData.getSetByNum(req.params.set_num);
-		let themes = legoData.getAllThemes();
-		res.status(200).render('edit', { themes: themeData, set: setData });
+		let setData = await legoData.getSetByNum(req.params.set_num);
+		let themeData = await legoData.getAllThemes();
+
+		res.status(200).render('editSet', { themes: themeData, set: setData });
 	} catch (error) {
 		res.status(404).render('404', { message: error });
+	}
+});
+
+app.post('/lego/editSet', async (req, res) => {
+	try {
+		await legoData.editSet(req.body.set_num, req.body);
+		res.redirect('/lego/sets');
+	} catch (error) {
+		res.render('500', {
+			message: `I'm sorry, but we have encountered the following error: ${err}`,
+		});
 	}
 });
 

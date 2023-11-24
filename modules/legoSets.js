@@ -38,7 +38,7 @@ let getSetByNum = (setNum) => {
 			include: [Theme],
 		});
 
-		if (foundSet != undefined) {
+		if (foundSet !== undefined && foundSet.length > 0) {
 			resolve(foundSet[0]);
 		} else {
 			reject(new Error('Unable to find requested set'));
@@ -91,6 +91,19 @@ let getAllThemes = () => {
 	});
 };
 
+let editSet = (set_num, setData) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let updatedSet = await Set.update(setData, {
+				where: { set_num: set_num },
+			});
+			resolve();
+		} catch (error) {
+			reject(error.errors[0].message);
+		}
+	});
+};
+
 module.exports = {
 	initialize,
 	getAllSets,
@@ -98,4 +111,5 @@ module.exports = {
 	getSetsByTheme,
 	addSet,
 	getAllThemes,
+	editSet,
 };

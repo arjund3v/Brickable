@@ -11,7 +11,7 @@
 		<title>Brickable</title>
 	</head>
 	<body>
-		<%- include('partials/navbar', {page: '' }) %
+		<%- include('partials/navbar', {page: '' }) %>
 		<br />
 		<div class="container mx-auto">
 			<div
@@ -30,7 +30,7 @@
 			</div>
 			<br />
 			<form
-				action="/lego/addSet"
+				action="/lego/editSet"
 				method="POST"
 				class="max-w-2xl mx-auto flex flex-col px-4">
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -97,10 +97,12 @@
 							name="theme_id"
 							class="input input-bordered"
 							required>
-							<% themes.forEach(theme => { %> <option <%= (set.theme_id ==
-							theme.id) ? "selected" : "" %> value="<%= theme.id %>"><%=
-							theme.name %> <% }) %>
-						</select>
+							<% themes.forEach((theme) => { %>
+								<option <%= (set.theme_id == theme.id) ? "selected" : "" %> value="<%= theme.id %>">
+									<%= theme.name %>
+								</option>
+							<% }) %>
+							</select>
 					</div>
 					<!-- Set # -->
 					<div class="form-control">
@@ -113,6 +115,7 @@
 							placeholder="Set #"
 							class="input input-bordered cursor-not-allowed"
 							readonly
+							value="<%= set.set_num %>"
 							required />
 					</div>
 				</div>
