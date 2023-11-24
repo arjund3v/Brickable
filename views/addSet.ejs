@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0" />
+		<link
+			rel="stylesheet"
+			href="/css/main.css" />
+		<title>Brickable</title>
+	</head>
+	<body>
+		<%- include('partials/navbar', {page: '/lego/addSet'})%>
+		<br />
+		<div class="container mx-auto">
+			<div
+				class="hero min-h-full rounded-none sm:rounded-lg"
+				style="background-image: url('/images/pinkBricks.jpg')">
+				<div
+					class="hero-overlay bg-opacity-70 rounded-none sm:rounded-lg"></div>
+				<div class="hero-content z-auto text-center text-neutral-content">
+					<div class="max-w-md">
+						<h1 class="mb-5 text-5xl font-bold">Add a Collection</h1>
+						<p class="mb-5">
+							Know of a collection we don't have? Add it to our collection!
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

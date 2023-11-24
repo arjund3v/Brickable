@@ -74,6 +74,10 @@ app.get('/lego/sets/:set_num', async (req, res) => {
 	}
 });
 
+app.get('/test', (req, res) => {
+	res.render('addSet');
+});
+
 // MIDDLEWARE: All non existing routes will come here
 app.use((req, res, next) => {
 	res.status(404).render('404', {
