@@ -101,6 +101,16 @@ app.post('/lego/addSet', async (req, res) => {
 	}
 });
 
+app.get('/lego/editSet/:set_num', async (req, res) => {
+	try {
+		let set = legoData.getSetByNum(req.params.set_num);
+		let themes = legoData.getAllThemes();
+		res.status(200).render('edit', { themes: themeData, set: setData });
+	} catch (error) {
+		res.status(404).render('404', { message: error });
+	}
+});
+
 // MIDDLEWARE: All non existing routes will come here
 app.use((req, res, next) => {
 	res.status(404).render('404', {
