@@ -61,4 +61,41 @@ let getSetsByTheme = (theme) => {
 	});
 };
 
-module.exports = { initialize, getAllSets, getSetByNum, getSetsByTheme };
+let addSet = (setData) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			console.log(setData);
+			let createdSet = await Set.create({
+				name: setData.name,
+				year: setData.year,
+				num_parts: setData.num_parts,
+				img_url: setData.img_url,
+				theme_id: setData.theme_id,
+				set_num: setData.set_num,
+			});
+			resolve();
+		} catch (error) {
+			reject(error.message);
+		}
+	});
+};
+
+let getAllThemes = () => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let themes = Theme.findAll({});
+			resolve(themes);
+		} catch (error) {
+			reject(error.errors[0].message);
+		}
+	});
+};
+
+module.exports = {
+	initialize,
+	getAllSets,
+	getSetByNum,
+	getSetsByTheme,
+	addSet,
+	getAllThemes,
+};

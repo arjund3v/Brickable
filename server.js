@@ -12,6 +12,7 @@
 
 const express = require('express');
 const path = require('path');
+const bodyParser = require('body-parser');
 const legoData = require('./modules/legoSets');
 
 const app = express();
@@ -19,6 +20,7 @@ const port = 3000;
 
 // Set templating engine
 app.set('view engine', 'ejs');
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Will initialize and then start the server, will catch any errors if something unexpected occurs
 try {
@@ -74,8 +76,29 @@ app.get('/lego/sets/:set_num', async (req, res) => {
 	}
 });
 
-app.get('/test', (req, res) => {
-	res.render('addSet');
+app.get('/lego/addSet', async (req, res) => {
+	try {
+		let themeData = await legoData.getAllThemes();
+		res.status(200).render('addSet', { themes: themeData });
+	} catch (error) {
+		res.render('500', {
+			message: `I'm sorry, but we have encountered the following error: ${error}`,
+		});
+	}
+});
+
+app.post('/lego/addSet', async (req, res) => {
+	try {
+		console.log('****************************************');
+		console.log(req.body);
+		console.log('****************************************');
+		await legoData.addSet(req.body);
+		res.redirect('/lego/sets');
+	} catch (error) {
+		res.render('500', {
+			message: `I'm sorry, but we have encountered the following error: ${error}`,
+		});
+	}
 });
 
 // MIDDLEWARE: All non existing routes will come here

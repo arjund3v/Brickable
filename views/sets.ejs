@@ -41,7 +41,7 @@
 						</td>
 						<td class="md:hidden">
 							<div class="md:hidden flex flex-col text-center">
-								<h2><%= set.Theme.name %></h2>
+								<h2><%= set.name %></h2>
 								<a href="/lego/sets?theme=<%= set.Theme.name %>" class="btn btn-primary btn-xs h-auto py-2 my-2"><%= set.Theme.name %></a>
 								<a href="/lego/sets/<%= set.set_num %>" class="btn btn-secondary btn-xs h-auto py-2 my-2">Details</a>
 								<p class="font-bold">Year: <span class="font-light"><%= set.year %></span></p>
@@ -49,7 +49,7 @@
 							</div>
 						</td>
 						<div>
-							<td class="md:table-cell hidden"><h2><%= set.Theme.name %></h2></td>
+							<td class="md:table-cell hidden"><h2><%= set.name %></h2></td>
 							<td class="md:table-cell hidden"><a href="/lego/sets?theme=<%= set.Theme.name %>" class="btn btn-primary btn-xs h-auto py-2 my-2"><%= set.Theme.name %></a></td>
 							<td class="md:table-cell hidden"><a href="/lego/sets/<%= set.set_num %>" class="btn btn-secondary btn-xs h-auto py-2 my-2">Details</a></td>
 							<td class="md:table-cell hidden"><p class="font-bold">Year: <span class="font-light"><%= set.year %></span></p></td>

@@ -28,10 +28,13 @@
 					</div>
 				</div>
 			</div>
+			<br />
 			<form
 				action="/lego/addSet"
-				method="POST">
-				<div class="flex flex-wrap w-[75%] gap-2 mx-auto justify-evenly">
+				method="POST"
+				class="max-w-2xl mx-auto flex flex-col px-4">
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+					<!-- Name -->
 					<div class="form-control">
 						<label class="label">
 							<span class="label-text">Name</span>
@@ -39,45 +42,81 @@
 						<input
 							name="name"
 							type="text"
-							placeholder="name"
+							placeholder="Name"
 							class="input input-bordered"
 							required />
 					</div>
+					<!-- Year -->
 					<div class="form-control">
 						<label class="label">
-							<span class="label-text">Name</span>
+							<span class="label-text">Year</span>
 						</label>
 						<input
-							name="name"
-							type="text"
-							placeholder="name"
+							name="year"
+							type="number"
+							placeholder="Year"
+							class="input input-bordered"
+							min="1956"
+							required />
+					</div>
+					<!-- # of Parts -->
+					<div class="form-control">
+						<label class="label">
+							<span class="label-text"># of Parts</span>
+						</label>
+						<input
+							name="num_parts"
+							type="number"
+							placeholder="# of Parts"
+							class="input input-bordered"
+							min="1"
+							required />
+					</div>
+					<!-- Image URL -->
+					<div class="form-control">
+						<label class="label">
+							<span class="label-text">Image URL</span>
+						</label>
+						<input
+							name="img_url"
+							type="url"
+							placeholder="Image URL"
 							class="input input-bordered"
 							required />
 					</div>
+					<!-- Theme -->
 					<div class="form-control">
 						<label class="label">
-							<span class="label-text">Name</span>
+							<span class="label-text">Theme</span>
 						</label>
-						<input
-							name="name"
-							type="text"
-							placeholder="name"
+						<select
+							name="theme_id"
 							class="input input-bordered"
-							required />
+							required>
+							<% themes.forEach(theme => { %>
+							<option value="<%= theme.id %>"><%= theme.name %></option>
+							<% }) %>
+						</select>
 					</div>
+					<!-- Set # -->
 					<div class="form-control">
 						<label class="label">
-							<span class="label-text">Name</span>
+							<span class="label-text">Set #</span>
 						</label>
 						<input
-							name="name"
+							name="set_num"
 							type="text"
-							placeholder="name"
+							placeholder="Set #"
 							class="input input-bordered"
 							required />
 					</div>
 				</div>
+				<button
+					class="btn-primary btn-wide mt-6 mx-auto rounded-md p-3 hover:btn-success hover:transition-all">
+					Submit
+				</button>
 			</form>
 		</div>
+		<br />
 	</body>
 </html>
