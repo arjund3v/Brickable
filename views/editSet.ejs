@@ -119,10 +119,13 @@
 							required />
 					</div>
 				</div>
-				<button
-					class="btn-primary btn-wide mt-6 mx-auto rounded-md p-3 hover:btn-success hover:transition-all">
-					Update Set
-				</button>
+				<div class="flex gap-2 justify-center items-center mt-5 flex-col sm:flex-row ">
+					<a href="/lego/deleteSet/<%= set.set_num %>" class="btn btn-error btn-wide rounded-md p-3 hover:transition-all ">Delete Set</a>
+					<button
+						class="btn btn-success btn-wide rounded-md p-3 hover:transition-all">
+						Update Set
+					</button>
+				</div>
 			</form>
 		</div>
 		<br />

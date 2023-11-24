@@ -29,14 +29,14 @@
 				</div>
 			</div>
 			<br />
-			<div class="flex flex-col justify-center gap-3 lg:flex-row">
+			<div class="flex flex-col justify-center gap-3 lg:flex-row p-3">
 				<img
                     src="<%= set.img_url %>"
-					class="w-[100%] h-auto bg-transparent bg-no-repeat bg-cover lg:min-w-[72%] md:rounded-lg"
+					class="w-[100%] h-auto bg-transparent bg-no-repeat bg-cover lg:min-w-[72%] rounded-lg"
                     >
 				</img>
-                <div class="w-auto min-h-full bg-cover md:rounded-lg" style="background-image: url('/images/herobg.jpg');">
-                    <div class="h-full w-full bg-opacity-70 md:rounded-lg" style="background-color: rgba(0, 0, 0, 0.7)">
+                <div class="w-auto min-h-full bg-cover rounded-lg" style="background-image: url('/images/herobg.jpg');">
+                    <div class="h-full w-full bg-opacity-70 rounded-lg" style="background-color: rgba(0, 0, 0, 0.7)">
                         <div class="flex flex-col text-white text-center">
                             <svg class="my-6" xmlns="http://www.w3.org/2000/svg" height="2.5em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>
                             <h2 class="font-bold text-3xl my-3 max-w-[75%] mx-auto"><%= set.name %></h2>
@@ -48,8 +48,10 @@
                                     <p id="quote"></p>
                                     <p id="author" class="italic"></p>
                                 </div>
-                                <a href="/lego/editSet/<%= set.set_num %>"class="btn btn-sm btn-success my-3">Edit: <%= set.name %></a>
-                                <a href="#" onclick="history.back(); return false;" class="btn btn-sm btn-secondary my-3">Return</a>
+                                <div class="flex flex-col w-[50%] items-center mx-auto">
+                                    <a href="/lego/editSet/<%= set.set_num %>"class="btn btn-sm btn-success my-3 w-full">Edit</a>
+                                    <a href="#" onclick="history.back(); return false;" class="btn btn-sm btn-secondary my-3 w-full">Return</a>
+                                </div>
                             </div>
                         </div>
                     </div>

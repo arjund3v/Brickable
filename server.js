@@ -6,7 +6,7 @@
  *
  * https://www.senecacollege.ca/about/policies/academic-integrity-policy.html
  *
- * Name: Arjun Saini Student ID: 106182223 Date: 20/11/2023
+ * Name: Arjun Saini Student ID: 106182223 Date: 24/11/2023
  *
  ********************************************************************************/
 
@@ -18,7 +18,6 @@ const legoData = require('./modules/legoSets');
 const app = express();
 const port = 3000;
 
-// Set templating engine
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -33,7 +32,6 @@ try {
 	console.log(`error: ${error}`);
 }
 
-// Mark the public folder as static
 app.use(express.static('public'));
 
 // ROUTE: Home Page
@@ -112,6 +110,18 @@ app.get('/lego/editSet/:set_num', async (req, res) => {
 app.post('/lego/editSet', async (req, res) => {
 	try {
 		await legoData.editSet(req.body.set_num, req.body);
+		res.redirect('/lego/sets');
+	} catch (error) {
+		res.render('500', {
+			message: `I'm sorry, but we have encountered the following error: ${err}`,
+		});
+	}
+});
+
+// DELETE SET
+app.get('/lego/deleteSet/:set_num', async (req, res) => {
+	try {
+		await legoData.deleteSet(req.params.set_num);
 		res.redirect('/lego/sets');
 	} catch (error) {
 		res.render('500', {

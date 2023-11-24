@@ -104,6 +104,21 @@ let editSet = (set_num, setData) => {
 	});
 };
 
+let deleteSet = (set_num) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let deletedSet = await Set.destroy({
+				where: {
+					set_num: set_num,
+				},
+			});
+			resolve();
+		} catch (error) {
+			reject(err.errors[0].message);
+		}
+	});
+};
+
 module.exports = {
 	initialize,
 	getAllSets,
@@ -112,4 +127,5 @@ module.exports = {
 	addSet,
 	getAllThemes,
 	editSet,
+	deleteSet,
 };
