@@ -74,6 +74,7 @@ app.get('/lego/sets/:set_num', async (req, res) => {
 	}
 });
 
+// API: Add set page endpoint
 app.get('/lego/addSet', async (req, res) => {
 	try {
 		let themeData = await legoData.getAllThemes();
@@ -85,6 +86,7 @@ app.get('/lego/addSet', async (req, res) => {
 	}
 });
 
+// API: Add set endpoint
 app.post('/lego/addSet', async (req, res) => {
 	try {
 		await legoData.addSet(req.body);
@@ -96,6 +98,7 @@ app.post('/lego/addSet', async (req, res) => {
 	}
 });
 
+// API: Edit set page endpoint
 app.get('/lego/editSet/:set_num', async (req, res) => {
 	try {
 		let setData = await legoData.getSetByNum(req.params.set_num);
@@ -107,6 +110,7 @@ app.get('/lego/editSet/:set_num', async (req, res) => {
 	}
 });
 
+// API: Edit set endpoint
 app.post('/lego/editSet', async (req, res) => {
 	try {
 		await legoData.editSet(req.body.set_num, req.body);
@@ -118,7 +122,7 @@ app.post('/lego/editSet', async (req, res) => {
 	}
 });
 
-// DELETE SET
+// API: Delete set endpoint
 app.get('/lego/deleteSet/:set_num', async (req, res) => {
 	try {
 		await legoData.deleteSet(req.params.set_num);
