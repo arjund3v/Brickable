@@ -1,57 +1,131 @@
-const setData = require('../data/setData');
-const themeData = require('../data/themeData');
-
-let sets = [];
+const Sequelize = require('sequelize');
+const sequelize = require('../config/database');
+const Set = require('../models/setModel');
+const Theme = require('../models/themeModel');
 
 let initialize = () => {
 	return new Promise((resolve, reject) => {
-		setData.forEach((set) => {
-			themeData.forEach((theme) => {
-				if (theme.id === set.theme_id) {
-					set.theme = theme.name;
-				}
+		sequelize
+			.sync()
+			.then(() => {
+				resolve();
+			})
+			.catch((err) => {
+				reject(err);
 			});
-			sets.push(set);
-		});
-		resolve();
 	});
 };
 
 let getAllSets = () => {
-	return new Promise((resolve, reject) => {
-		resolve(sets);
+	return new Promise(async (resolve, reject) => {
+		try {
+			let setData = Set.findAll({
+				include: [Theme],
+			});
+			resolve(setData);
+		} catch (error) {
+			reject(error);
+		}
 	});
 };
 
 let getSetByNum = (setNum) => {
-	return new Promise((resolve, reject) => {
-		let found = sets.find((set) => set.set_num == setNum);
+	return new Promise(async (resolve, reject) => {
+		let foundSet = await Set.findAll({
+			where: {
+				set_num: setNum,
+			},
+			include: [Theme],
+		});
 
-		// If find isn't undefined, we will resolve with the set
-		if (found != undefined) {
-			resolve(found);
+		if (foundSet !== undefined && foundSet.length > 0) {
+			resolve(foundSet[0]);
 		} else {
-			// Otherwise we will reject with an error
-			reject(new Error(`Couldn't find set with that number, please try again`));
+			reject(new Error('Unable to find requested set'));
 		}
 	});
 };
 
 let getSetsByTheme = (theme) => {
-	return new Promise((resolve, reject) => {
-		let foundArr = sets.filter((set) =>
-			// We convert to lower case for the sake of case sensitivity
-			set.theme.toLowerCase().includes(theme.toLowerCase())
-		);
+	return new Promise(async (resolve, reject) => {
+		let setArr = await Set.findAll({
+			include: [Theme],
+			where: { '$Theme.name$': { [Sequelize.Op.iLike]: `%${theme}%` } },
+		});
 
-		if (foundArr != undefined && foundArr.length != 0) {
-			resolve(foundArr);
+		if (setArr != undefined) {
+			resolve(setArr);
 		} else {
-			reject(
-				new Error(`Couldn't find sets with that theme, please try again.`)
-			);
+			reject(new Error('Unable to find requested sets'));
 		}
 	});
 };
 
-module.exports = { initialize, getAllSets, getSetByNum, getSetsByTheme };
+let addSet = (setData) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			console.log(setData);
+			let createdSet = await Set.create({
+				name: setData.name,
+				year: setData.year,
+				num_parts: setData.num_parts,
+				img_url: setData.img_url,
+				theme_id: setData.theme_id,
+				set_num: setData.set_num,
+			});
+			resolve();
+		} catch (error) {
+			reject(error.message);
+		}
+	});
+};
+
+let getAllThemes = () => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let themes = Theme.findAll({});
+			resolve(themes);
+		} catch (error) {
+			reject(error.errors[0].message);
+		}
+	});
+};
+
+let editSet = (set_num, setData) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let updatedSet = await Set.update(setData, {
+				where: { set_num: set_num },
+			});
+			resolve();
+		} catch (error) {
+			reject(error.errors[0].message);
+		}
+	});
+};
+
+let deleteSet = (set_num) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let deletedSet = await Set.destroy({
+				where: {
+					set_num: set_num,
+				},
+			});
+			resolve();
+		} catch (error) {
+			reject(err.errors[0].message);
+		}
+	});
+};
+
+module.exports = {
+	initialize,
+	getAllSets,
+	getSetByNum,
+	getSetsByTheme,
+	addSet,
+	getAllThemes,
+	editSet,
+	deleteSet,
+};

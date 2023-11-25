@@ -6,48 +6,20 @@
  *
  * https://www.senecacollege.ca/about/policies/academic-integrity-policy.html
  *
- * Name: Arjun Saini Student ID: 106182223 Date: 20/11/2023
+ * Name: Arjun Saini Student ID: 106182223 Date: 24/11/2023
  *
  ********************************************************************************/
 
-require('dotenv').config();
 const express = require('express');
-const Sequelize = require('sequelize');
 const path = require('path');
+const bodyParser = require('body-parser');
 const legoData = require('./modules/legoSets');
 
 const app = express();
 const port = 3000;
 
-// Set templating engine
 app.set('view engine', 'ejs');
-
-// Database Setup
-const sequelize = new Sequelize(
-	process.env.DB_DATABASE,
-	process.env.DB_USER,
-	process.env.DB_PASSWORD,
-	{
-		host: process.env.DB_HOST,
-		dialect: 'postgres',
-		port: 5432,
-		dialectOptions: {
-			ssl: { rejectUnauthorized: false },
-		},
-	}
-);
-
-// Establish Database connection
-sequelize
-	.authenticate()
-	.then(() => {
-		console.log(
-			`Connection to ${process.env.DB_DATABASE} has been established successfully.`
-		);
-	})
-	.catch((err) => {
-		console.log('Unable to connect to the database:', err);
-	});
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Will initialize and then start the server, will catch any errors if something unexpected occurs
 try {
@@ -60,7 +32,6 @@ try {
 	console.log(`error: ${error}`);
 }
 
-// Mark the public folder as static
 app.use(express.static('public'));
 
 // ROUTE: Home Page
@@ -100,6 +71,66 @@ app.get('/lego/sets/:set_num', async (req, res) => {
 		res.status(200).render('set', { set: set });
 	} catch (error) {
 		res.status(404).render('404', { message: 'Unable to find requested set.' });
+	}
+});
+
+// API: Add set page endpoint
+app.get('/lego/addSet', async (req, res) => {
+	try {
+		let themeData = await legoData.getAllThemes();
+		res.status(200).render('addSet', { themes: themeData });
+	} catch (error) {
+		res.render('500', {
+			message: `I'm sorry, but we have encountered the following error: ${error}`,
+		});
+	}
+});
+
+// API: Add set endpoint
+app.post('/lego/addSet', async (req, res) => {
+	try {
+		await legoData.addSet(req.body);
+		res.redirect('/lego/sets');
+	} catch (error) {
+		res.render('500', {
+			message: `I'm sorry, but we have encountered the following error: ${error}`,
+		});
+	}
+});
+
+// API: Edit set page endpoint
+app.get('/lego/editSet/:set_num', async (req, res) => {
+	try {
+		let setData = await legoData.getSetByNum(req.params.set_num);
+		let themeData = await legoData.getAllThemes();
+
+		res.status(200).render('editSet', { themes: themeData, set: setData });
+	} catch (error) {
+		res.status(404).render('404', { message: error });
+	}
+});
+
+// API: Edit set endpoint
+app.post('/lego/editSet', async (req, res) => {
+	try {
+		await legoData.editSet(req.body.set_num, req.body);
+		res.redirect('/lego/sets');
+	} catch (error) {
+		res.render('500', {
+			message: `I'm sorry, but we have encountered the following error: ${err}`,
+		});
+	}
+});
+
+// API: Delete set endpoint
+app.get('/lego/deleteSet/:set_num', async (req, res) => {
+	try {
+		await legoData.deleteSet(req.params.set_num);
+		res.redirect('/lego/sets');
+	} catch (error) {
+		res.render('500', {
+			message: `I'm sorry, but we have encountered the following error: ${err}`,
+		});
 	}
 });
 
