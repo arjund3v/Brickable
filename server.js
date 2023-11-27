@@ -10,20 +10,28 @@
  *
  ********************************************************************************/
 
+// Library Imports
 const express = require('express');
-const path = require('path');
 const bodyParser = require('body-parser');
-const legoData = require('./modules/legoSets');
 
+// Controller Imports
+const { initialize } = require('./controllers/legoSetsController');
+
+// Route Imports
+const Lego = require('./routes/Lego');
+
+// Server Initialization
 const app = express();
 const port = 3000;
-
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public'));
 
-// Will initialize and then start the server, will catch any errors if something unexpected occurs
+/********************************************
+ *               Startup                    *
+ ********************************************/
 try {
-	legoData.initialize().then(() => {
+	initialize().then(() => {
 		app.listen(port, () => {
 			console.log(`Server listening on port: ${port}`);
 		});
@@ -32,109 +40,23 @@ try {
 	console.log(`error: ${error}`);
 }
 
-app.use(express.static('public'));
-
-// ROUTE: Home Page
+/********************************************
+ *              Root Routes                 *
+ ********************************************/
 app.get('/', (req, res) => {
 	res.render('home');
 });
 
-// ROUTE: About page
+// About Page
 app.get('/about', (req, res) => {
 	res.render('about');
 });
 
-// API: Main Endpoint
-app.get('/lego/sets', async (req, res) => {
-	let theme = req.query.theme;
-	let sets = {};
+/********************************************
+ *               Routes                     *
+ ********************************************/
+app.use('/lego', Lego);
 
-	try {
-		if (theme == undefined) {
-			sets = await legoData.getAllSets();
-			res.status(200).render('sets', { sets: sets });
-		} else {
-			sets = await legoData.getSetsByTheme(theme);
-			res.status(200).render('sets', { sets: sets });
-		}
-	} catch (error) {
-		res
-			.status(404)
-			.render('404', { message: 'Unable to find requested sets.' });
-	}
-});
-
-// API: set by num endpoint
-app.get('/lego/sets/:set_num', async (req, res) => {
-	try {
-		let set = await legoData.getSetByNum(req.params.set_num);
-		res.status(200).render('set', { set: set });
-	} catch (error) {
-		res.status(404).render('404', { message: 'Unable to find requested set.' });
-	}
-});
-
-// API: Add set page endpoint
-app.get('/lego/addSet', async (req, res) => {
-	try {
-		let themeData = await legoData.getAllThemes();
-		res.status(200).render('addSet', { themes: themeData });
-	} catch (error) {
-		res.render('500', {
-			message: `I'm sorry, but we have encountered the following error: ${error}`,
-		});
-	}
-});
-
-// API: Add set endpoint
-app.post('/lego/addSet', async (req, res) => {
-	try {
-		await legoData.addSet(req.body);
-		res.redirect('/lego/sets');
-	} catch (error) {
-		res.render('500', {
-			message: `I'm sorry, but we have encountered the following error: ${error}`,
-		});
-	}
-});
-
-// API: Edit set page endpoint
-app.get('/lego/editSet/:set_num', async (req, res) => {
-	try {
-		let setData = await legoData.getSetByNum(req.params.set_num);
-		let themeData = await legoData.getAllThemes();
-
-		res.status(200).render('editSet', { themes: themeData, set: setData });
-	} catch (error) {
-		res.status(404).render('404', { message: error });
-	}
-});
-
-// API: Edit set endpoint
-app.post('/lego/editSet', async (req, res) => {
-	try {
-		await legoData.editSet(req.body.set_num, req.body);
-		res.redirect('/lego/sets');
-	} catch (error) {
-		res.render('500', {
-			message: `I'm sorry, but we have encountered the following error: ${err}`,
-		});
-	}
-});
-
-// API: Delete set endpoint
-app.get('/lego/deleteSet/:set_num', async (req, res) => {
-	try {
-		await legoData.deleteSet(req.params.set_num);
-		res.redirect('/lego/sets');
-	} catch (error) {
-		res.render('500', {
-			message: `I'm sorry, but we have encountered the following error: ${err}`,
-		});
-	}
-});
-
-// MIDDLEWARE: All non existing routes will come here
 app.use((req, res, next) => {
 	res.status(404).render('404', {
 		message: `I'm sorry, we're unable to find what you're looking for.`,
