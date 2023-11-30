@@ -9,6 +9,7 @@ const {
 	editSet,
 	deleteSet,
 } = require('../controllers/legoSetsController');
+const ensureLogin = require('../middleware/ensureLogin');
 
 /********************************************
  *               View Sets                  *
@@ -44,7 +45,7 @@ router.get('/sets/:set_num', async (req, res) => {
 /********************************************
  *               Add Sets                   *
  ********************************************/
-router.get('/addSet', async (req, res) => {
+router.get('/addSet', ensureLogin, async (req, res) => {
 	try {
 		let themeData = await getAllThemes();
 		res.status(200).render('addSet', { themes: themeData });
@@ -55,7 +56,7 @@ router.get('/addSet', async (req, res) => {
 	}
 });
 
-router.post('/addSet', async (req, res) => {
+router.post('/addSet', ensureLogin, async (req, res) => {
 	try {
 		await addSet(req.body);
 		res.redirect('/lego/sets');
@@ -69,7 +70,7 @@ router.post('/addSet', async (req, res) => {
 /********************************************
  *               Edit Sets                  *
  ********************************************/
-router.get('/editSet/:set_num', async (req, res) => {
+router.get('/editSet/:set_num', ensureLogin, async (req, res) => {
 	try {
 		let setData = await getSetByNum(req.params.set_num);
 		let themeData = await getAllThemes();
@@ -80,13 +81,13 @@ router.get('/editSet/:set_num', async (req, res) => {
 	}
 });
 
-router.post('/editSet', async (req, res) => {
+router.post('/editSet', ensureLogin, async (req, res) => {
 	try {
 		await editSet(req.body.set_num, req.body);
 		res.redirect('/lego/sets');
 	} catch (error) {
 		res.render('500', {
-			message: `I'm sorry, but we have encountered the following error: ${err}`,
+			message: `I'm sorry, but we have encountered the following error: ${error}`,
 		});
 	}
 });
@@ -94,13 +95,13 @@ router.post('/editSet', async (req, res) => {
 /********************************************
  *               Delete Sets                *
  ********************************************/
-router.get('/deleteSet/:set_num', async (req, res) => {
+router.get('/deleteSet/:set_num', ensureLogin, async (req, res) => {
 	try {
 		await deleteSet(req.params.set_num);
 		res.redirect('/lego/sets');
 	} catch (error) {
 		res.render('500', {
-			message: `I'm sorry, but we have encountered the following error: ${err}`,
+			message: `I'm sorry, but we have encountered the following error: ${error}`,
 		});
 	}
 });
