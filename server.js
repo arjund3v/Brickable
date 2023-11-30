@@ -13,6 +13,7 @@
 // Library Imports
 const express = require('express');
 const bodyParser = require('body-parser');
+const clientSessions = require('client-sessions');
 
 // Controller Imports
 const legoData = require('./controllers/legoSetsController');
@@ -20,13 +21,29 @@ const authData = require('./controllers/userController');
 
 // Route Imports
 const Lego = require('./routes/Lego');
+const User = require('./routes/User');
 
 // Server Initialization
 const app = express();
 const port = 3000;
 app.set('view engine', 'ejs');
+
+// Setup Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
+app.use(
+	clientSessions({
+		cookieName: 'session', // this is the object name that will be added to 'req'
+		secret: 'o6LjQ5EVNC28ZgK64hDELM18ScpFQr', // this should be a long un-guessable string.
+		duration: 2 * 60 * 1000, // duration of the session in milliseconds (2 minutes)
+		activeDuration: 1000 * 60, // the session will be extended by this many ms each request (1 minute)
+	})
+);
+app.use((req, res, next) => {
+	// Ensure all of our templates will have a session obj
+	res.locals.session = req.session;
+	next();
+});
 
 /********************************************
  *               Startup                    *
@@ -35,8 +52,8 @@ legoData
 	.initialize()
 	.then(authData.initialize)
 	.then(function () {
-		app.listen(HTTP_PORT, function () {
-			console.log(`app listening on: ${HTTP_PORT}`);
+		app.listen(port, function () {
+			console.log(`app listening on: ${port}`);
 		});
 	})
 	.catch(function (err) {
@@ -59,6 +76,7 @@ app.get('/about', (req, res) => {
  *               Routes                     *
  ********************************************/
 app.use('/lego', Lego);
+app.use('/user', User);
 
 app.use((req, res, next) => {
 	res.status(404).render('404', {

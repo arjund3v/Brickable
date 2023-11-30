@@ -7,7 +7,7 @@ let User;
 let initialize = () => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			let db = await mongoose.createConnection(process.env.MONGODB);
+			let db = mongoose.createConnection(process.env.MONGODB);
 
 			db.on('error', (err) => {
 				reject(err);
