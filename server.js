@@ -15,7 +15,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 // Controller Imports
-const { initialize } = require('./controllers/legoSetsController');
+const legoData = require('./controllers/legoSetsController');
+const authData = require('./controllers/userController');
 
 // Route Imports
 const Lego = require('./routes/Lego');
@@ -30,15 +31,17 @@ app.use(express.static('public'));
 /********************************************
  *               Startup                    *
  ********************************************/
-try {
-	initialize().then(() => {
-		app.listen(port, () => {
-			console.log(`Server listening on port: ${port}`);
+legoData
+	.initialize()
+	.then(authData.initialize)
+	.then(function () {
+		app.listen(HTTP_PORT, function () {
+			console.log(`app listening on: ${HTTP_PORT}`);
 		});
+	})
+	.catch(function (err) {
+		console.log(`unable to start server: ${err}`);
 	});
-} catch (error) {
-	console.log(`error: ${error}`);
-}
 
 /********************************************
  *              Root Routes                 *
