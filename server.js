@@ -1,12 +1,14 @@
 /********************************************************************************
- * WEB322 – Assignment 05
+ * WEB322 – Assignment 06
  *
  * I declare that this assignment is my own work in accordance with Seneca's
  * Academic Integrity Policy:
  *
  * https://www.senecacollege.ca/about/policies/academic-integrity-policy.html
  *
- * Name: Arjun Saini Student ID: 106182223 Date: 24/11/2023
+ * Name: Arjun Saini Student ID: 106182223 Date: 1/12/2023
+ *
+ * Published URL: https://brickable.cyclic.app/
  *
  ********************************************************************************/
 
