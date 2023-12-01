@@ -40,7 +40,7 @@
 					method="POST"
 				>
 					<!-- Username Field -->
-					<div class="mb-6">
+					<div class="mb-6 form-control">
 						<label
 							for="userName"
 							class="block text-gray-700 text-sm font-bold mb-2"
@@ -53,12 +53,12 @@
 							placeholder="User Name"
 							required
 							value="<%= locals.userName ? userName : '' %>"
-							class="w-full px-4 py-2 border rounded-md"
+							class="input input-bordered input-primary w-full px-4 py-2 border rounded-md"
 						/>
 					</div>
 
 					<!-- Password Field -->
-					<div class="mb-6">
+					<div class="mb-6 form-control">
 						<label
 							for="password"
 							class="block text-gray-700 text-sm font-bold mb-2"
@@ -70,14 +70,14 @@
 							name="password"
 							placeholder="Password"
 							required
-							class="w-full px-4 py-2 border rounded-md"
+							class="input input-bordered input-primary w-full px-4 py-2 border rounded-md"
 						/>
 					</div>
 
 					<!-- Submit Button -->
 					<button
 						type="submit"
-						class="w-full btn btn-primary py-3 px-6 rounded-md hover:btn-secondary focus:outline-none focus:shadow-outline-blue active:bg-blue-800"
+						class="w-full btn btn-primary py-3 px-6 rounded-md hover:btn-secondary"
 					>
 						Login
 					</button>
