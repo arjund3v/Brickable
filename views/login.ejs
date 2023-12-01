@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<link
+			rel="stylesheet"
+			href="/css/main.css"
+		/>
+		<title>Brickable</title>
+	</head>
+
+	<body>
+		<%- include('partials/navbar', {page: '/user/login'})%>
+		<div
+			class="bg-gray-100 h-screen flex flex-col items-center justify-center p-5"
+		>
+			<div class="bg-white p-8 rounded-lg shadow-md sm:w-96 w-full">
+				<h2 class="text-3xl font-semibold mb-8">
+					Login<svg
+						xmlns="http://www.w3.org/2000/svg"
+						height="16"
+						width="16"
+						class="inline-block mb-3/4 mx-2"
+						viewBox="0 0 512 512"
+					>
+						<!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
+						<path
+							d="M217.9 105.9L340.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L217.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1L32 320c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM352 416l64 0c17.7 0 32-14.3 32-32l0-256c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l64 0c53 0 96 43 96 96l0 256c0 53-43 96-96 96l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32z"
+						/>
+					</svg>
+				</h2>
+
+				<!-- Login Form -->
+				<form
+					action="/user/login"
+					method="POST"
+				>
+					<!-- Username Field -->
+					<div class="mb-6 form-control">
+						<label
+							for="userName"
+							class="block text-gray-700 text-sm font-bold mb-2"
+							>Username</label
+						>
+						<input
+							type="text"
+							id="userName"
+							name="userName"
+							placeholder="User Name"
+							required
+							value="<%= locals.userName ? userName : '' %>"
+							class="input input-bordered input-primary w-full px-4 py-2 border rounded-md"
+						/>
+					</div>
+
+					<!-- Password Field -->
+					<div class="mb-6 form-control">
+						<label
+							for="password"
+							class="block text-gray-700 text-sm font-bold mb-2"
+							>Password</label
+						>
+						<input
+							type="password"
+							id="password"
+							name="password"
+							placeholder="Password"
+							required
+							class="input input-bordered input-primary w-full px-4 py-2 border rounded-md"
+						/>
+					</div>
+
+					<!-- Submit Button -->
+					<button
+						type="submit"
+						class="w-full btn btn-primary py-3 px-6 rounded-md hover:btn-secondary"
+					>
+						Login
+					</button>
+				</form>
+			</div>
+			<br />
+			<% if (locals.errorMessage) { %>
+			<div class="alert alert-error mt-4 md:w-[50%] w-full">
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="stroke-current shrink-0 h-6 w-6"
+					fill="none"
+					viewBox="0 0 24 24"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+					/>
+				</svg>
+				<span><%= errorMessage %></span>
+			</div>
+			<% } %>
+		</div>
+	</body>
+</html>
