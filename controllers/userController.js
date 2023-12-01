@@ -25,10 +25,8 @@ let initialize = () => {
 
 let registerUser = (userData) => {
 	return new Promise(async (resolve, reject) => {
-		let { userName, userAgent, email, password, password2 } = userData;
-
 		try {
-			if (password != password2) {
+			if (userData.password != userData.password2) {
 				reject('Passwords do not match');
 			} else {
 				let newUser = new User(userData);
@@ -47,34 +45,35 @@ let registerUser = (userData) => {
 
 let checkUser = (userData) => {
 	return new Promise(async (resolve, reject) => {
-		let { userName, userAgent, email, password, password2 } = userData;
 		try {
-			let users = await User.find({ userName: userName });
+			let users = await User.find({ userName: userData.userName });
 
 			if (users.length == 0) {
-				reject(`Unable to find user: ${userName}`);
-			} else if (users[0].password != password) {
-				reject(`Incorrect Password for user: ${userName}`);
-			} else if (users[0].password == password) {
+				reject(`Unable to find user: ${userData.userName}`);
+			} else if (users[0].password != userData.password) {
+				reject(`Incorrect Password for user: ${userData.userName}`);
+			} else if (users[0].password == userData.password) {
 				if (users[0].loginHistory.length == 8) {
 					users[0].loginHistory.pop();
-					users[0].loginHistory.unshift({
-						dateTime: new Date().toString(),
-						userAgent: userAgent,
-					});
-					try {
-						await User.updateOne(
-							{ userName: users[0].userName },
-							{ $set: { loginHistory: users[0].loginHistory } }
-						);
-						resolve(users[0]);
-					} catch (error) {
-						reject(`There was an error verifying the user: ${error}`);
-					}
+				}
+
+				users[0].loginHistory.unshift({
+					dateTime: new Date().toString(),
+					userAgent: userData.userAgent,
+				});
+
+				try {
+					await User.updateOne(
+						{ userName: users[0].userName },
+						{ $set: { loginHistory: users[0].loginHistory } }
+					);
+					resolve(users[0]);
+				} catch (error) {
+					reject(`There was an error verifying the user: ${error}`);
 				}
 			}
 		} catch (error) {
-			reject(`Unable to find user: ${userName}`);
+			reject(`Unable to find user: ${userData.userName}`);
 		}
 	});
 };

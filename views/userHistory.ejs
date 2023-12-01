@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<link
+			rel="stylesheet"
+			href="/css/main.css"
+		/>
+		<title>Brickable</title>
+	</head>
+	<body>
+		<%- include('partials/navbar', {page: '/user/userHistory'})%>
+		<br />
+		<div class="container mx-auto">
+			<div
+				class="hero min-h-full rounded-none sm:rounded-lg"
+				style="background-image: url('/images/historyHero.jpg')"
+			>
+				<div
+					class="hero-overlay bg-opacity-70 rounded-none sm:rounded-lg"
+				></div>
+				<div class="hero-content z-auto text-center text-neutral-content">
+					<div class="max-w-md">
+						<h1 class="mb-5 text-5xl font-bold">
+							<%= session.user.userName %>
+						</h1>
+						<p class="mb-5">User History: <%= session.user.email %></p>
+					</div>
+				</div>
+			</div>
+			<br />
+			<table class="table table-zebra p-5 w-[60%] sm:w-[100%] mx-auto">
+				<!-- head -->
+				<thead>
+					<tr>
+						<th>Login Date / Time</th>
+						<th>Client Information</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% session.user.loginHistory.forEach((login) => { %>
+					<tr>
+						<td><%= new Date(login.dateTime).toUTCString() %></td>
+						<td><%= login.userAgent %></td>
+					</tr>
+					<% }); %>
+				</tbody>
+			</table>
+		</div>
+		<br />
+	</body>
+</html>

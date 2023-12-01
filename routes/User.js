@@ -18,9 +18,11 @@ router.get('/register', (req, res) => {
 router.post('/register', async (req, res) => {
 	try {
 		await registerUser(req.body);
-		res.render('register', { successMessage: 'User created' });
+		res.render('register', {
+			successMessage: 'User created',
+		});
 	} catch (error) {
-		res.render('render', {
+		res.render('register', {
 			errorMessage: error,
 			userName: req.body.userName,
 		});
